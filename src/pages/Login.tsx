@@ -96,24 +96,33 @@ const Login: React.FC = () => {
     <>
       <div className="flex h-[100dvh] w-[100dvw]">
         <div
-          className="w-[55%] p-[3rem]"
+          className="w-[55%] py-[5rem] pl-[6rem] pr-[5rem]"
           style={{ backgroundImage: "url('/images/Rectangle 1.png')" }}
         >
-          <div className="w-fit  flex items-center gap-[1rem]">
+          <div className="w-fit mb-[3rem]  flex items-center gap-[1rem]">
             <img
               src="/images/serving-food (1).svg"
               alt="Logo"
               className="w-[3rem] h-[3rem]"
             />
 
-            <span className="text-white leading-[0.5%] font-[500] text-[27px] ">
+            <span className="text-white leading-[0.5%] font-[400] text-[20px] ">
               CHOP CENTRAL
             </span>
           </div>
-          <h1 className="text-4xl font-bold mb-4">Welcome Back</h1>
-          <p className="text-lg text-center">
-            Securely access your account and manage your data efficiently.
-          </p>
+
+          <div className="mb-[3rem] w-[100%] text-left">
+            <span className=" font-[500] text-[1.5rem] leading-[24px] text-white text-left">
+              Opportunities don’t happen. You create them. Success comes to
+              those who seek it, plan for it, and work relentlessly toward it.
+            </span>
+          </div>
+
+          <div className=" w-[100%] text-left">
+            <span className=" font-[400] text-[.9rem] leading-[24px] text-white text-left">
+              - Chris Grosser
+            </span>
+          </div>
         </div>
 
         {/* Right Section */}
