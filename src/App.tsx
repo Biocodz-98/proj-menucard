@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import { AuthRedirect, ProtectedRoute } from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import { useStore } from "../store/store";
-import LoadingScreen from "./components/LoadingScreen"; // Import correctly
+import LoadingScreen from "./components/LoadingScreen";
 import ForgotPassword from "./pages/ForgotPassword";
 import Signup from "./pages/Signup";
 
