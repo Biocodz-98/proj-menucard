@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../assets/styles/LoadingScreen.css"; // Make sure this path is correct
+import "../assets/styles/LoadingScreen.css";
 
 interface LoadingScreenProps {
   loading: boolean;
@@ -12,10 +12,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ loading }) => {
     let timer: any;
 
     if (loading) {
-      // Add a small delay before starting the animation
       timer = setTimeout(() => setIsActive(true), 100);
     } else {
-      // When loading finishes, immediately deactivate
       setIsActive(false);
     }
 
@@ -24,7 +22,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ loading }) => {
     };
   }, [loading]);
 
-  // Only render the component when loading is true
   if (!loading) return null;
 
   return (

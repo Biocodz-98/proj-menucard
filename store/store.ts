@@ -2,27 +2,22 @@ import { create } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
 import apiService from "../src/services/apiService";
 
-// User type definition
 interface User {
   name?: string;
   role?: string;
-  // Add other user properties here
   [key: string]: any;
 }
 
-// Auth state type definition
 interface AuthState {
   user: User | null;
   token: string | null;
 }
 
-// Error format type definition
 interface ErrorDetail {
   hasError: boolean;
   message: string;
 }
 
-// Response data type definition
 interface LoginResponse {
   status: number;
   message: string;
@@ -32,13 +27,11 @@ interface LoginResponse {
   };
 }
 
-// Shape of the entire store
 interface StoreState {
   auth: AuthState;
   loading: boolean;
   errors: Record<string, ErrorDetail>;
 
-  // Actions
   setErrors: (field: string, hasError: boolean, message?: string) => void;
   setLoading: (loading: boolean) => void;
   resetStore: () => void;
@@ -46,7 +39,6 @@ interface StoreState {
   logout: () => Promise<void>;
 }
 
-// Persistence configuration
 type StorePersist = PersistOptions<StoreState, Pick<StoreState, "auth">>;
 
 const persistConfig: StorePersist = {
@@ -75,12 +67,6 @@ export const useStore = create<StoreState>()(
             [field]: { hasError, message },
           },
         }));
-
-        // Toast.show({
-        //   type: "error",
-        //   text1: "Error",
-        //   text2: message,
-        // });
       },
 
       setLoading: (loading: boolean) => {
@@ -104,14 +90,15 @@ export const useStore = create<StoreState>()(
         try {
           set({ loading: true, errors: {} });
 
-          const response = await apiService.login(username, password) as LoginResponse;
+          const response = (await apiService.login(
+            username,
+            password
+          )) as LoginResponse;
 
-          // Store token in localStorage
           if (response.data?.token) {
             localStorage.setItem("token", response.data.token);
           }
 
-          // Update state with user data and token
           set({
             auth: {
               user: response.data.user,
@@ -122,7 +109,6 @@ export const useStore = create<StoreState>()(
 
           return response;
         } catch (error: any) {
-          // Type assertion for error
           const errorMessage =
             error.response?.data?.message || error.message || "Login Failed";
 
@@ -147,10 +133,8 @@ export const useStore = create<StoreState>()(
 
           await apiService.logout();
 
-          // Clear token from localStorage
           localStorage.removeItem("token");
 
-          // Reset store to initial state
           set({
             auth: {
               user: null,
@@ -162,7 +146,6 @@ export const useStore = create<StoreState>()(
         } catch (error) {
           console.error("Logout error:", error);
 
-          // Even if there's an error, reset the auth state
           set({
             auth: {
               user: null,

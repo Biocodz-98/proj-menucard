@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import { useStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login: React.FC = () => {
   const { login, setErrors, loading } = useStore();
   const navigate = useNavigate();
 
-  // For a more complete form, you'd add these state variables
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // For the demo, we'll use the hardcoded values
     const loginUsername = "meme";
     const loginPassword = "passy";
 
@@ -21,10 +19,9 @@ const Login = () => {
       const response = await login(loginUsername, loginPassword);
 
       if (response.status === 200) {
-        // No need to navigate here - AuthRedirect will handle this
         console.log("Login successful");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Login error:", err);
 
       const errorMessage =
@@ -35,31 +32,29 @@ const Login = () => {
   };
 
   return (
-    <div className="flex ">
-      {/* <div></div>
-      <h1>Login</h1> */}
+    <div className="flex">
       <h1>Login</h1>
-
       <form onSubmit={handleLogin}>
-       
         <div className="form-group bg-red-500">
           <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
             placeholder="Username (demo: meme)"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
             placeholder="Password (demo: passy)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>

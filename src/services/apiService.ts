@@ -4,7 +4,6 @@ import axios, {
   AxiosResponse,
 } from "axios";
 
-// Environment variable type declaration
 declare global {
   interface ImportMeta {
     env: {
@@ -15,7 +14,6 @@ declare global {
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-// Interface for login response
 interface LoginResponse {
   status: number;
   message: string;
@@ -29,13 +27,11 @@ interface LoginResponse {
   };
 }
 
-// Interface for logout response
 interface LogoutResponse {
   status: number;
   message: string;
 }
 
-// Create axios instance with types
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -43,7 +39,6 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Add request interceptor with proper typing
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = localStorage.getItem("token");
@@ -55,7 +50,6 @@ api.interceptors.request.use(
   (error: any) => Promise.reject(error)
 );
 
-// Add response interceptor with proper typing
 api.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => response,
   (error: any) => {
@@ -79,11 +73,6 @@ const apiService = {
 
   async login(username?: string, password?: string): Promise<LoginResponse> {
     try {
-      // Uncomment for real implementation
-      // const response = await api.post<LoginResponse>('/auth/login', { username, password });
-      // return response.data;
-
-      // Mock implementation
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
@@ -104,11 +93,6 @@ const apiService = {
 
   async logout(): Promise<LogoutResponse> {
     try {
-      // Uncomment for real implementation
-      // const response = await api.post<LogoutResponse>('/auth/logout');
-      // return response.data;
-
-      // Mock implementation
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
@@ -119,7 +103,7 @@ const apiService = {
       });
     } catch (error) {
       console.error("Error logging out:", error);
-      throw error as Error; // Re-throw the error after logging
+      throw error as Error;
     }
   },
 };

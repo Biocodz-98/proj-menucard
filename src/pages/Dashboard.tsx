@@ -1,15 +1,15 @@
 import React from "react";
 import { useStore } from "../../store/store";
-// import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = () => {
   const { logout, auth, loading } = useStore();
-//   const navigate = useNavigate();
+//  
 
   const handleLogout = async () => {
     try {
       await logout();
-      // No need to navigate here - ProtectedRoute will handle redirection
+      
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
       <main>
         <p>This is your protected dashboard. You're logged in!</p>
-        {/* Your dashboard content here */}
+       
       </main>
     </div>
   );

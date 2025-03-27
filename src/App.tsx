@@ -25,7 +25,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
-          {/* Add a default route */}
+
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
