@@ -132,21 +132,13 @@ export const useStore = create<StoreState>()(
       googleLogin: async (credential: string) => {
         try {
           set({ loading: true, errors: {} });
-          console.log("Store: Starting Google login process");
 
-          // Use the apiService instead of direct axios call
+          
           const response = await apiService.googleAuth(credential);
-          console.log("Store: Received response from googleAuth:", response);
 
           if (response.data?.token) {
-            console.log(
-              "Store: Saving token to localStorage:",
-              response.data.token.substring(0, 10) + "..."
-            );
             localStorage.setItem("token", response.data.token);
           }
-
-          console.log("Store: Updating auth state");
           set({
             auth: {
               user: response.data.user,

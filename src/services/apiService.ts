@@ -95,12 +95,9 @@ const apiService = {
 
   async googleAuth(credential: string): Promise<LoginResponse> {
     try {
-      console.log(
-        "API Service: Received Google credential, length:",
-        credential.length
-      );
+    
 
-      // For testing, we'll create a mock response similar to what your backend would return
+      
       return new Promise((resolve) => {
         console.log("API Service: Creating mock Google auth response");
         setTimeout(() => {
