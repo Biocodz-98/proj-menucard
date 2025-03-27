@@ -10,6 +10,8 @@ import { AuthRedirect, ProtectedRoute } from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import { useStore } from "../store/store";
 import LoadingScreen from "./components/LoadingScreen"; // Import correctly
+import ForgotPassword from "./pages/ForgotPassword";
+import Signup from "./pages/Signup";
 
 function App() {
   const { loading } = useStore();
@@ -26,7 +28,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
 
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/sign-up" element={<Signup />} />
         </Routes>
       </Router>
     </>

@@ -69,7 +69,7 @@
 // export default Login;
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../../store/store";
 
 const Login: React.FC = () => {
@@ -154,8 +154,12 @@ const Login: React.FC = () => {
               </button>
             </form>
 
-            <button className="text-red">Forgot Password</button>
-            <button className="text-green">Sign Up</button>
+            <Link to="/forgot-password">
+              <button className="text-red">Forgot Password</button>
+            </Link>
+            <Link to="/sign-up">
+              <button className="text-green">Sign Up</button>
+            </Link>
           </div>
         </div>
       </div>
