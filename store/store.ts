@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
 import apiService from "../src/services/apiService";
+import axios from "axios";
 
 interface User {
   name?: string;
@@ -36,6 +37,7 @@ interface StoreState {
   setLoading: (loading: boolean) => void;
   resetStore: () => void;
   login: (username: string, password: string) => Promise<LoginResponse>;
+  googleLogin: (credential: string) => Promise<any>;
   logout: () => Promise<void>;
 }
 
@@ -111,6 +113,48 @@ export const useStore = create<StoreState>()(
         } catch (error: any) {
           const errorMessage =
             error.response?.data?.message || error.message || "Login Failed";
+
+          set({
+            loading: false,
+            errors: {
+              ...get().errors,
+              login: {
+                hasError: true,
+                message: errorMessage,
+              },
+            },
+          });
+
+          throw error;
+        }
+      },
+
+      googleLogin: async (credential: string) => {
+        try {
+          set({ loading: true, errors: {} });
+
+          
+          const response = await apiService.googleAuth(credential);
+
+          if (response.data?.token) {
+            localStorage.setItem("token", response.data.token);
+          }
+          set({
+            auth: {
+              user: response.data.user,
+              token: response.data.token,
+            },
+            loading: false,
+          });
+
+          return response;
+        } catch (error: any) {
+          console.error("Store: Google login error:", error);
+
+          const errorMessage =
+            error.response?.data?.message ||
+            error.message ||
+            "Google Login Failed";
 
           set({
             loading: false,
