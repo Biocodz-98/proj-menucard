@@ -22,7 +22,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<AuthRedirect />}>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />

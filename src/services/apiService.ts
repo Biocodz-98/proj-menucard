@@ -8,6 +8,8 @@ declare global {
   interface ImportMeta {
     env: {
       VITE_API_URL: string;
+      VITE_GOOGLE_CLIENT_ID: string;
+      VITE_GOOGLE_CLIENT_SECRET: string;
     };
   }
 }
@@ -87,6 +89,41 @@ const apiService = {
       });
     } catch (error) {
       console.error("Error logging user in:", error);
+      throw error;
+    }
+  },
+
+  async googleAuth(credential: string): Promise<LoginResponse> {
+    try {
+      console.log(
+        "API Service: Received Google credential, length:",
+        credential.length
+      );
+
+      // For testing, we'll create a mock response similar to what your backend would return
+      return new Promise((resolve) => {
+        console.log("API Service: Creating mock Google auth response");
+        setTimeout(() => {
+          const response = {
+            status: 200,
+            message: "Google Login Successful!",
+            data: {
+              user: {
+                name: "Google User",
+                email: "googleuser@example.com",
+                role: "user",
+              },
+              token:
+                "mocked-google-jwt-token-" +
+                Math.random().toString(36).substring(2),
+            },
+          };
+          console.log("API Service: Returning mock response:", response);
+          resolve(response);
+        }, 1000);
+      });
+    } catch (error) {
+      console.error("Error with Google auth:", error);
       throw error;
     }
   },
