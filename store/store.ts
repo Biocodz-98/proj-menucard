@@ -1,8 +1,60 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistOptions } from "zustand/middleware";
 import apiService from "../src/services/apiService";
 
-export const useStore = create(
+// User type definition
+interface User {
+  name?: string;
+  role?: string;
+  // Add other user properties here
+  [key: string]: any;
+}
+
+// Auth state type definition
+interface AuthState {
+  user: User | null;
+  token: string | null;
+}
+
+// Error format type definition
+interface ErrorDetail {
+  hasError: boolean;
+  message: string;
+}
+
+// Response data type definition
+interface LoginResponse {
+  status: number;
+  message: string;
+  data: {
+    user: User;
+    token: string;
+  };
+}
+
+// Shape of the entire store
+interface StoreState {
+  auth: AuthState;
+  loading: boolean;
+  errors: Record<string, ErrorDetail>;
+
+  // Actions
+  setErrors: (field: string, hasError: boolean, message?: string) => void;
+  setLoading: (loading: boolean) => void;
+  resetStore: () => void;
+  login: (username: string, password: string) => Promise<LoginResponse>;
+  logout: () => Promise<void>;
+}
+
+// Persistence configuration
+type StorePersist = PersistOptions<StoreState, Pick<StoreState, "auth">>;
+
+const persistConfig: StorePersist = {
+  name: "menucard",
+  partialize: (state) => ({ auth: state.auth }),
+};
+
+export const useStore = create<StoreState>()(
   persist(
     (set, get) => ({
       auth: {
@@ -12,7 +64,11 @@ export const useStore = create(
       loading: false,
       errors: {},
 
-      setErrors: (field, hasError, message = "An error occurred") => {
+      setErrors: (
+        field: string,
+        hasError: boolean,
+        message: string = "An error occurred"
+      ) => {
         set((state) => ({
           errors: {
             ...state.errors,
@@ -27,7 +83,7 @@ export const useStore = create(
         // });
       },
 
-      setLoading: (loading) => {
+      setLoading: (loading: boolean) => {
         set({ loading });
       },
 
@@ -41,11 +97,14 @@ export const useStore = create(
         });
       },
 
-      login: async (username, password) => {
+      login: async (
+        username: string,
+        password: string
+      ): Promise<LoginResponse> => {
         try {
           set({ loading: true, errors: {} });
 
-          const response = await apiService.login(username, password);
+          const response = await apiService.login(username, password) as LoginResponse;
 
           // Store token in localStorage
           if (response.data?.token) {
@@ -62,7 +121,8 @@ export const useStore = create(
           });
 
           return response;
-        } catch (error) {
+        } catch (error: any) {
+          // Type assertion for error
           const errorMessage =
             error.response?.data?.message || error.message || "Login Failed";
 
@@ -81,7 +141,7 @@ export const useStore = create(
         }
       },
 
-      logout: async () => {
+      logout: async (): Promise<void> => {
         try {
           set({ loading: true });
 
@@ -113,10 +173,6 @@ export const useStore = create(
         }
       },
     }),
-    {
-      name: "menucard",
-      // Only persist the auth object
-      partialize: (state) => ({ auth: state.auth }),
-    }
+    persistConfig
   )
 );

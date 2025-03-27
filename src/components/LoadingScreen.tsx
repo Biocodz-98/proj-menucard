@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import "../assets/styles/LoadingScreen.css"; // Make sure this path is correct
 
-const LoadingScreen = ({ loading }) => {
-  const [isActive, setIsActive] = useState(false);
+interface LoadingScreenProps {
+  loading: boolean;
+}
+
+const LoadingScreen: React.FC<LoadingScreenProps> = ({ loading }) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   useEffect(() => {
-    let timer;
+    let timer: any;
+
     if (loading) {
       // Add a small delay before starting the animation
       timer = setTimeout(() => setIsActive(true), 100);
